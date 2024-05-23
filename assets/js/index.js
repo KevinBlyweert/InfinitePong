@@ -22,9 +22,8 @@ function createPlayground() {
             blocks.push(block);
         }
     }
-
-    balls.push(new Ball(blockWidth, height - 3 * blockHeight, random(-5, 5), random(-5, 5), (blockWidth / 2), firstColor));
-    balls.push(new Ball(width - blockWidth, 3 * blockHeight, random(-5, 5), random(-5, 5), (blockWidth / 2), secondColor));
+    balls.push(new Ball(blockWidth, height - 3 * blockHeight, 9, -9, (blockWidth / 2), firstColor));
+    balls.push(new Ball(width - blockWidth, 3 * blockHeight, -9, 9, (blockWidth / 2), secondColor));
 
     animate();
 }
