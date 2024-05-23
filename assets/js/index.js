@@ -3,8 +3,9 @@ import Block from "./class/block.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const divFirstColor = document.querySelector(".firstColor"), divSecondColor = document.querySelector(".secondColor");
 // let width = (canvas.width = window.innerWidth), height = (canvas.height = window.innerHeight);
-let width = (canvas.width = 600), height = (canvas.height = 600);
+let width = (canvas.width = window.innerWidth > 600 ? 600 : window.innerWidth), height = (canvas.height = window.innerWidth > 600 ? 600 : window.innerWidth), ballSpeed = 5;
 
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -14,6 +15,8 @@ const balls = [], blocks = [];
 let blockWidth = 0, blockHeight = 0, firstColor = "#0C9C4C", secondColor = "#CCC";
 
 function createPlayground() {
+    divFirstColor.style.background = firstColor;
+    divSecondColor.style.background = secondColor;
     blockWidth = width / 10;
     blockHeight = height / 10;
     for (let i = 0; i < 10; i++) {
@@ -22,8 +25,8 @@ function createPlayground() {
             blocks.push(block);
         }
     }
-    balls.push(new Ball(blockWidth, height - 3 * blockHeight, 9, -9, (blockWidth / 2), firstColor));
-    balls.push(new Ball(width - blockWidth, 3 * blockHeight, -9, 9, (blockWidth / 2), secondColor));
+    balls.push(new Ball(blockWidth / 2, 4 * (blockHeight / 2), ballSpeed, -ballSpeed * 2, (blockWidth * 0.5), firstColor));
+    balls.push(new Ball(width - blockWidth / 2, height - (blockHeight * 1.5), -ballSpeed, ballSpeed * 2, (blockWidth * 0.5), secondColor));
 
     animate();
 }
@@ -33,37 +36,13 @@ function animate() {
     balls.forEach(ball => {
         blocks.forEach(block => {
             if (block.color == ball.color) {
-                let side = "";
-                let blockX = block.x;
-                let blockY = block.y;
-                if (ball.x <= block.x) { blockX = block.x; side = "left-"; side += ball.velY > 0 ? "up" : "down"; }
-                else if (ball.x >= block.x + block.width) { blockX = block.x + block.width; side = "right-"; side += ball.velY > 0 ? "up" : "down"; }
-                if (ball.y <= block.y) { blockY = block.y; side = "up-"; side += ball.velX > 0 ? "left" : "right"; }
-                else if (ball.y >= block.y + block.width) { blockY = block.y + block.width; side = "down-"; side += ball.velX > 0 ? "left" : "right"; }
-                let distX = ball.x - blockX;
-                let distY = ball.y - blockY;
-                let distance = Math.sqrt((distX * distX) + (distY * distY));
-                if (distance <= ball.radius) {
-                    block.color = block.color == firstColor ? secondColor : firstColor;
-                    switch (side) {
-                        case "left-up":
-                        case "left-down":
-                        case "right-up":
-                        case "right-down":
-                            ball.velX = -ball.velX;
-                            break;
-                        case "up-left":
-                        case "up-right":
-                        case "down-left":
-                        case "down-right":
-                            ball.velY = -ball.velY;
-                            break;
-                    }
-                }
+                ball.collision(block, firstColor, secondColor);
             }
         });
         ball.update(ctx, width, height);
     });
+    divFirstColor.textContent = blocks.filter(block => block.color == firstColor).length;
+    divSecondColor.textContent = blocks.filter(block => block.color == secondColor).length;
     requestAnimationFrame(animate);
 }
 
