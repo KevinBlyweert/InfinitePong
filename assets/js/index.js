@@ -23,8 +23,8 @@ function createPlayground() {
         }
     }
 
-    balls.push(new Ball(blockWidth / 2, height - 3 * (blockHeight / 2), 5, -3, (blockWidth / 2), firstColor));
-    balls.push(new Ball(width - (blockWidth / 2), 3 * blockHeight / 2, -5, 3, (blockWidth / 2), secondColor));
+    balls.push(new Ball(blockWidth, height - 3 * blockHeight, random(-5, 5), random(-5, 5), (blockWidth / 2), firstColor));
+    balls.push(new Ball(width - blockWidth, 3 * blockHeight, random(-5, 5), random(-5, 5), (blockWidth / 2), secondColor));
 
     animate();
 }
@@ -46,7 +46,6 @@ function animate() {
                 let distance = Math.sqrt((distX * distX) + (distY * distY));
                 if (distance <= ball.radius) {
                     block.color = block.color == firstColor ? secondColor : firstColor;
-                    console.log(side);
                     switch (side) {
                         case "left-up":
                         case "left-down":

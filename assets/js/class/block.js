@@ -10,7 +10,7 @@ export default class Block {
         ctx.fillStyle = this.color;
         ctx.rect(this.x, this.y, this.width, this.width);
         ctx.fill();
-        ctx.strokeStyle = "#000";
-        ctx.stroke()
+        // ctx.strokeStyle = "#000";
+        // ctx.stroke()
     }
 }

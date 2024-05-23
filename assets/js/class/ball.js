@@ -12,8 +12,8 @@ export default class Ball {
         ctx.fillStyle = this.color;
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
+        // ctx.strokeStyle = "#000";
+        // ctx.stroke();
     }
     update(ctx, width, height) {
         if (this.x + this.radius > width || this.x - this.radius <0) this.velX = -this.velX;
